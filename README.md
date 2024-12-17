@@ -5,5 +5,5 @@
 
 개발 환경 (사용기술)
 
-Front-end : CSS , HTML5, Bootstrap
-TOOl : VisualStudio
+* Front-end : CSS , HTML5, Bootstrap  
+* TOOl : VisualStudio
