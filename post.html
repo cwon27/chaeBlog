@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>[Python] 블로그 프로젝트 [1] - Flask가 뭘까- chaeBlog</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: #f7f9fc;
+      }
+      a,
+      button {
+        cursor: pointer;
+      }
+      header,
+      main {
+        width: 100%;
+        margin: 0 auto;
+        max-width: 1670px;
+        padding: 12px;
+      }
+      #header_top {
+        width: 80%;
+        /* max-width: 1744px; */
+        margin: 0 auto;
+        height: 40px;
+        /* background-color: aqua; */
+        margin-bottom: 10px;
+        display: flex;
+      }
+      #header > div:first-child > div {
+        float: left;
+        width: 50%;
+        line-height: 35px;
+      }
+      #header_top a {
+        padding-right: 10px;
+      }
+      #header_top a:link,
+      #header_top a:visited {
+        color: #6fbaf8;
+        text-decoration: none;
+      }
+      #header_top a:hover {
+        color: #3076b0;
+        text-decoration: none;
+      }
+      #header > div:first-child > div:last-child {
+        text-align: right;
+      }
+      #btn_logOut {
+        background-color: #6fbaf8;
+        border: 0px #6fbaf8;
+        color: #fff;
+        height: 2rem;
+        padding-left: 1.3rem;
+        padding-right: 1.3rem;
+        font-size: 1.2rem;
+        border-radius: 1rem;
+        cursor: pointer;
+      }
+      #btn_logOut:hover {
+        background-color: #3076b0;
+      }
+      .white-box {
+        background-color: white;
+        padding: 50px;
+        border-radius: 5px;
+        box-shadow: 0.5px 0.5px 2px 1px #dddddd;
+      }
+      .white-box h1 {
+        display: block;
+        text-align: center;
+        margin: 20px 0 30px 0;
+        font-size: 2.5em;
+        font-weight: bold;
+        color: #505050;
+      }
+      #post-top {
+        /* background-color: aqua; */
+        border-bottom: 3px solid #d9d9d9;
+        margin-bottom: 40px;
+        padding: 10px 50px;
+        display: flex;
+        justify-content: center;
+      }
+      #post-top > div:first-child,
+      #post-top > div:nth-of-type(2) {
+        width: 50%;
+        float: left;
+      }
+      #post-top a:link,
+      #post-top a:visited {
+        color: #545454;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 1.1em;
+      }
+      #post-top img {
+        width: 30px;
+        height: 30px;
+        border-radius: 100px;
+        border: 1px solid #acabab;
+      }
+      #contents {
+        width: 70%;
+        /* background-color: #6fbaf8; */
+        margin: 0 auto;
+        text-align: center;
+        color: #5f5f5f;
+      }
+      #contents > img {
+        width: 100%;
+        max-width: 768px;
+        max-height: 430.56px;
+        border: 1px solid #d4d4d4;
+      }
+      #contents > p {
+        margin: 20px 0;
+        padding: 0 33px;
+        text-align: left;
+      }
+      #contents > h2 {
+        margin: 40px 0 16px;
+        padding: 0 33px;
+        text-align: left;
+        font-weight: bold;
+      }
+      #contents > h5 {
+        margin: 23.94px 0 16px;
+        padding: 0 33px;
+        text-align: left;
+        font-weight: bold;
+      }
+      #contents > div {
+        text-align: left;
+        margin: 0 33px;
+        padding: 20px 10px;
+        background-color: #f0f0f0;
+        border-left: 5px solid #6fbaf8;
+        font-weight: bold;
+      }
+      #contents > div > a:link,
+      #contents > div > a:visited {
+        color: #5f5f5f;
+        text-decoration: none;
+      }
+      #contents > div > a:hover {
+        color: #6fbaf8;
+      }
+      #post-bottom {
+        /* background-color: aqua; */
+        border-top: 3px solid #d9d9d9;
+        margin: 20px 0 0;
+        padding: 30px 210px 0;
+        font-size: 1.3em;
+        font-weight: bold;
+        color: #5f5f5f;
+      }
+
+      .comment_input {
+        width: 100%;
+        padding: 10px;
+        font-size: 18px;
+        border: 1px solid #7a7a7a;
+        border-radius: 5px;
+        box-sizing: border-box;
+        margin-bottom: 10px;
+        background-color: #f0f0f0;
+      }
+      textarea {
+        height: 8em;
+        resize: none;
+      }
+      #post-bottom input[type="button"] {
+        cursor: pointer;
+        color: white;
+        background-color: #6fbaf8;
+        border: 0px;
+        border-radius: 30px;
+        width: 15%;
+        font-size: 0.8em;
+        padding: 7px;
+      }
+
+      #post-bottom input[type="button"]:hover {
+        background-color: #3076b0;
+      }
+    </style>
+  </head>
+  <body>
+    <header id="header">
+      <div id="header_top">
+        <div id="header_logoBlock">
+          <a href="index.html" style="font-size: 25px; font-weight: bold"
+            >chaeBlog</a
+          >
+        </div>
+        <div id="header_right_block">
+          <input
+            type="button"
+            value="로그아웃"
+            id="btn_logOut"
+            onclick="window.location.href='login.html';"
+          />
+        </div>
+      </div>
+    </header>
+    <main>
+      <div class="container" style="width: 80%; margin-bottom: 40px">
+        <div class="white-box">
+          <h1>[Python] 블로그 프로젝트 [1] - Flask가 뭘까</h1>
+          <div class="w-100" id="post-top">
+            <div>
+              <a href="myhome.html"><img src="img/profile.jpeg" /></a>
+              <a href="myhome.html">chaewon</a>
+              <span style="padding: 3px">.</span>
+              <span style="color: #545454">2024년 07월 03일</span>
+            </div>
+            <div style="text-align: right">
+              <input
+                type="button"
+                value="수정"
+                class="btn btn-outline-secondary input-button"
+                style="border: 0; padding: 3px 3px"
+                onclick=""
+              />
+              <input
+                type="button"
+                value="삭제"
+                class="btn btn-outline-secondary input-button"
+                style="border: 0; padding: 3px 3px"
+                onclick=""
+              />
+            </div>
+          </div>
+          <div id="contents">
+            <img src="img/image (14).jpg" />
+            <p>
+              블로그 프로젝트를 만들면서 서버가 어떤식으로 작동하는지 데이터는
+              어떤식으로 가져와서 화면에 뿌려주는지 등을 공부해볼까 한다.
+            </p>
+            <h2>1. 들어가기 앞서 Flask가 뭐임?</h2>
+            <p>
+              난 아직 초보이기때문에 Flask와 sqlite를 사용해서 개발해보는게 가장
+              이해하기 쉬울 것 같다 하여 Flask를 처음으로 사용 해보게 되었다.
+            </p>
+            <p>
+              Flask란 Python으로 작성된 마이크로 웹 프레임워크이다.<br />
+              Flask는 웹 애플리케이션을 구축하는데 필요한 핵심 기능을 제공하는데
+              중점을 둔 단순한 디자인으로 사람들이 많이 사용하는 프레임워크이다.
+            </p>
+            <h2>2. 세팅하기</h2>
+            <h5>1. 파이썬 설치</h5>
+            <p>1) 우선 python을 설치하기 위해 해당 페이지로 이동한다.</p>
+            <div>
+              <a href="https://www.python.org/">Python 설치 페이지</a>
+            </div>
+            <p>2) 접속 후 Downloads -> windows<br /></p>
+            <img src="img/postImg1.png" />
+            <p>여기서 Stable Releases에 있는 파일을 다운 받을 것이다!</p>
+            <p>
+              3) Stable Releases 클릭 후 아래에 Files -> Windows installer
+              (64-bit) 클릭 후 설치<br />
+            </p>
+            <img src="img/postImg2.png" />
+            <p>4) 다운받은 파일을 실행하여 설치를 진행한다</p>
+            <div>
+              여기서 주의할 점!<br />
+              Add python.exe to PATH 옵션을 반드시 선택해야한다!
+            </div>
+            <p>5) 설치가 끝나면 cmd에서 설치가 잘 되었는지 확인해보기<br /></p>
+            <img src="img/postImg3.png" />
+            <h5>2. Flask 설치하기</h5>
+            <p>1) Flask 설치는 간단하다.</p>
+            <div>그냥 cmd창에서 pip install flask 입력!</div>
+            <p>
+              2) 설치가 잘 됐는지 확인<br />
+              cmd->pip list 입력 후 리스트에 있나 확인<br />
+            </p>
+            <img src="img/postImg4.png" />
+            <p>
+              이렇게하면 세팅은 끝난다!<br />
+              sqlite는 python 안에 기본으로 내장돼있어서 따로 설치 안해줘도 됨!
+            </p>
+          </div>
+          <div class="w-100" id="post-bottom">
+            <p>0개의 댓글</p>
+            <textarea
+              id="comment_input"
+              class="comment_input"
+              placeholder="댓글을 작성하세요."
+            ></textarea>
+            <div style="text-align: right">
+              <input type="button" value="댓글 작성" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

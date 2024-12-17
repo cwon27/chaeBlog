@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>회원가입</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: #f7f9fc;
+      }
+      .white-box {
+        background-color: white;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0.5px 0.5px 2px 1px #eee;
+        margin: 0 auto;
+        margin-top: 100px;
+        width: 80%;
+        max-width: 700px;
+      }
+      h1 {
+        text-align: center;
+        margin: 40px 0;
+        font-size: 40px;
+        font-weight: bold;
+        color: #6fbaf8;
+      }
+      #joinFrm {
+        /* background-color: aqua; */
+        width: 80%;
+        margin: 0 auto;
+        overflow: auto;
+        margin-bottom: 20px;
+      }
+      #joinFrm input {
+        /* width: 100%; */
+        padding: 10px;
+        border: 1px solid #9e9e9e;
+        border-radius: 5px;
+        box-sizing: border-box;
+        margin: 10px 0;
+      }
+      #joinFrm ul {
+        margin: 0;
+        padding: 0;
+        list-style-type: none;
+        overflow: auto;
+      }
+      #joinFrm li {
+        float: left;
+        padding: 10px 0;
+        border-bottom: 1px solid #ddd;
+        line-height: 60px;
+      }
+      #joinFrm li:nth-child(2n + 1) {
+        width: 30%;
+        color: #818181;
+      }
+      #joinFrm li:nth-child(2n) {
+        width: 70%;
+      }
+      #joinFrm li:last-of-type {
+        width: 100%;
+        text-align: center;
+      }
+      #joinFrm input[type="button"] {
+        margin-left: 10px;
+        cursor: pointer;
+        color: #818181;
+        background-color: #dddddd;
+        border: 0px;
+      }
+      #join-Btn > input[type="button"] {
+        margin-top: 40px;
+        cursor: pointer;
+        color: white;
+        background-color: #6fbaf8;
+        border: 0px;
+        border-radius: 30px;
+        width: 30%;
+        font-size: 1.3em;
+      }
+      #tel1 {
+        height: 37.78px;
+        border: 1px solid #9e9e9e;
+        border-radius: 5px;
+        box-sizing: border-box;
+      }
+    </style>
+    <script>
+      function formCheck() {
+        //id 입력 유무 확인
+        if ($("#userid").val() == "") {
+          alert("아이디를 입력하세요.");
+          return false; //다음 실행X
+        }
+        //pwd 입력 유무 확인
+        if ($("#userpwd").val() == "") {
+          alert("비밀번호를 입력하세요.");
+          return false;
+        }
+
+        //pwd 입력 유무 확인2
+        if ($("#userpwd2").val() == "") {
+          alert("비밀번호 확인을 입력하세요.");
+          return false;
+        }
+
+        var reg;
+
+        //아이디 검사 : 영어,숫자,_허용, 맨앞글자 영어, 8~12글자
+        reg = /^[a-zA-z]{1}\w{7,11}$/;
+
+        if (!reg.test(document.getElementById("userid").value)) {
+          alert("아이디 형식이 잘못됐습니다");
+          return false;
+        }
+
+        //비밀번호 검사 : 영어,숫자,특수문자 허용, 맨앞글자 영어, 8~15글자
+        reg = /^[a-zA-z]{1}(?=.*[a-zA-Z])(?=.*[!@#$%*])(?=.*[0-9]).{8,15}$/;
+
+        console.log(document.getElementById("userpwd").value);
+        console.log(reg.test(document.getElementById("userpwd").value));
+
+        if (!reg.test(document.getElementById("userpwd").value)) {
+          alert("비밀번호 형식이 잘못됐습니다");
+          return false;
+        }
+
+        //비밀번호 확인
+        if ($("#userpwd").val() != $("#userpwd2").val()) {
+          alert("비밀번호가 다릅니다.\n다시 입력해주세요!");
+          return false;
+        }
+
+        //이름 검사 : 한글만 허용 2~8글자
+        reg = /^([가-힣]{2,8})?$/;
+
+        if (!reg.test(document.getElementById("username").value)) {
+          alert("이름 형식이 잘못됐습니다!");
+          return false;
+        }
+
+        //이메일 검사
+        reg =
+          /^([a-zA-z]{1}\w{3,11}[@][a-zA-Z]{2,8}[.][a-zA-Z]{2,3}([.][a-zA-Z]{2,3})?)?$/;
+
+        if (!reg.test(document.getElementById("useremail").value)) {
+          alert("이메일 형식이 잘못됐습니다!");
+          return false;
+        }
+
+        //연락처 검사
+        var tel = document.getElementById("tel2").value + "-";
+        tel += document.getElementById("tel3").value;
+
+        reg = /^([0-9]{3,4})?[-]([0-9]{4})?$/;
+
+        if (!reg.test(tel)) {
+          alert("연락처 형식이 잘못됐습니다");
+          return false;
+        }
+
+        //우편번호 검사 숫자 5자리
+        reg = /^([0-9]{5})?$/;
+
+        if (!reg.test(document.getElementById("zipcode").value)) {
+          alert("우편번호 형식이 잘못됐습니다!");
+          return false;
+        }
+
+        //주소 검사 한글 숫자
+        reg = /^([가-힣0-9" "-]{5,30})?$/;
+        if (!reg.test(document.getElementById("addr").value)) {
+          alert("주소 형식이 잘못됐습니다!");
+          return false;
+        }
+
+        //상세주소 검사 한글 숫자
+        reg = /^([가-힣0-9" "]{1,20})?$/;
+        if (!reg.test(document.getElementById("addrdetail").value)) {
+          alert("상세주소 형식이 잘못됐습니다!");
+          return false;
+        }
+
+        window.location.href = "login.html";
+      }
+    </script>
+  </head>
+
+  <body>
+    <div class="white-box">
+      <h1>Join</h1>
+      <div id="joinFrm">
+        <form>
+          <ul>
+            <li>아이디(필수)</li>
+            <li>
+              <input type="text" name="userid" id="userid" />
+              <input type="button" id="idCheck" value="아이디 중복검사" />
+            </li>
+            <li>비밀번호(필수)</li>
+            <li>
+              <input type="password" name="userpwd" id="userpwd" />
+            </li>
+            <li>비밀번호 확인(필수)</li>
+            <li>
+              <input type="password" name="userpwd2" id="userpwd2" />
+            </li>
+            <li>이름</li>
+            <li>
+              <input type="text" name="username" id="username" />
+            </li>
+            <li>이메일</li>
+            <li>
+              <input type="text" name="useremail" id="useremail" />
+            </li>
+            <li>연락처</li>
+            <li>
+              <select name="tel1" id="tel1">
+                <option>010</option>
+                <option>02</option>
+                <option>031</option>
+                <option>041</option>
+              </select>
+              -
+              <input
+                type="text"
+                name="tel2"
+                id="tel2"
+                size="4"
+                minlength="3"
+                maxlength="4"
+              />
+              -
+              <input
+                type="text"
+                name="tel3"
+                id="tel3"
+                size="4"
+                minlength="3"
+                maxlength="4"
+              />
+            </li>
+            <li>우편번호</li>
+            <li>
+              <input type="text" name="zipcode" id="zipcode" size="5" />
+              <input type="button" id="zipsearch" value="우편번호 검색" />
+            </li>
+            <li>주소</li>
+            <li>
+              <input type="text" name="addr" id="addr" style="width: 60%" />
+            </li>
+            <li>상세주소</li>
+            <li>
+              <input
+                type="text"
+                name="addrdetail"
+                id="addrdetail"
+                style="width: 60%"
+              />
+            </li>
+            <li style="border-bottom: 0px" id="join-Btn">
+              <input type="button" value="Join" onclick="formCheck()" />
+            </li>
+          </ul>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>
